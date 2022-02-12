@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="./export.js"></script>
+    <link rel="stylesheet" href="./common.css"/>
+    <meta property="og:title" content="딥러닝 로또당첨번호 예측">
+    <meta property="og:description" content="기존 당첨번호를 딥러닝해서 이번 회차의 로또당첨번호를 예측">
+    <meta property="og:image" content="./img/logo.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <title>딥러닝을 사용한 로또당첨번호 예측</title>
+</head>
+<body>
+    <div id="title">
+        <p>딥 러닝 로또 당첨번호</p> 
+    </div>
+    <div id="mainContainer">
+        <canvas id="lotto"></canvas>
+        <br><br>
+        <div id="subMenu">
+            <button type="button" id="btnNumGen">번호 예측</button>
+            <button type="button" id="btnCopy">복사 하기</button>
+            <button type="button" id="btnContent">로직 설명</button>
+            <div>
+                <textarea id="lottoTxt">
+                    
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div id="logicContent">
+        <p>ㅇ 1회차부터 1001회차 까지 만든 딥러닝 모델로 예측합니다.</p>
+    </div>
+    <div class="js-layer layer hidden">
+        <p>모델을 가져오는 중입니다...</p>
+    </div>
+    
+</body>
+</html>
