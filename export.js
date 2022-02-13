@@ -60,7 +60,7 @@ $( document ).ready(function() {
 		$('.js-layer').removeClass('hidden');
 		numbers = new Array();
 		tf.loadLayersModel(MODEL_URL, false).then(model => {
-			lastWinNumber = [6,10,12,14,20,42] //직전회차의 당첨번호(1002회)
+			lastWinNumber = [17, 25, 33, 35, 38, 45] //직전회차의 당첨번호(1002회)
 			let ohbin = numbers2Ohbin(lastWinNumber); //당첨번호를 ont hot binary로 변환
 			const xs = tf.tensor3d(ohbin, [1,1,45]); //tensor3d [1,1,45] 모델로 생성
 			result = model.predict(xs); // 다음회차에 대한 예상결과값을 불러온다
@@ -141,7 +141,39 @@ function getNumbers(numsProb) {
 	
 	return selected_ball;
 }
-
+//1번 로직과는 전혀다른 로직
+function getNumbers2(numsProb) {
+	let ballBox = [];
+	let ball_count, ball;
+	
+	for(let i=0;i<45;i++) {
+		ballCount = parseInt(numsProb[i] * 100 + 1);
+		let ball = new Array(ball_count).fill(i+1);
+		ballBox.push(ball);
+	}
+	for(let i in ballBox) {
+		if(i == 0) {
+			tempResult = new Array().concat(ball_box[i]);
+		} else {
+			tempResult = new Array().concat(tempResult, ballBox[i]); 
+		}
+	}
+	let selectedBall = new Array();
+	while(1) {
+		if(selectedBall.length == 6) break;
+		ballIndex = Math.floor(Math.random() * tempResult.length);
+		let ball = tempResult[ballIndex];
+		if(!selectedBall.includes(ball) && ball != 0) {
+			selectedBall.push(ball);
+		}
+	}
+	//오름차순 정렬
+	selected_ball.sort((a,b) => {
+		return a-b;
+	});
+	
+	return selected_ball;
+}
 function numbers2Ohbin(value) {
 	let ohbin = new Array(45).fill(0);
 	for(let i in value) {
