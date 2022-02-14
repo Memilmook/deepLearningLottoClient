@@ -122,6 +122,7 @@ function showLogicContent() { //이미지로할때
 	let imgDataUrl = document.getElementById("lotto").toDataURL();
 	let files = dataURLtoFile(imgDataUrl, 'a.png');
 	let fileList = [files];
+	$('.kakao-layer').removeClass('hidden');
 	Kakao.Link.uploadImage({
 		file: fileList
 	  }).then(function(res){
@@ -133,13 +134,16 @@ function showLogicContent() { //이미지로할때
 			'${learning}' : learningCount
 			},
 		});
+		$('.kakao-layer').addClass('hidden');
 	  });
+	
 }
 function showLogicContent2() { //게시물로할때
 	if(checkGenerateNumber()) return ;
 	let imgDataUrl = document.getElementById("lotto").toDataURL();
 	let files = dataURLtoFile(imgDataUrl, 'a.png');
 	let fileList = [files];
+	$('.kakao-layer').removeClass('hidden');
 	Kakao.Link.uploadImage({
 		file: fileList
 	  }).then(function(res){
@@ -163,7 +167,9 @@ function showLogicContent2() { //게시물로할때
 				},
 			},
 			]
-	  	});
+	  	}).then(function() {
+			  $('.kakao-layer').addClass('hidden');
+		  });
 	  });
 }
 function setUseStateButton(flag, numbersTxt) {
