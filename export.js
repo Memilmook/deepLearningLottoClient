@@ -3,11 +3,13 @@ let result; //모델에서 예측된 결과가 저장될곳
 let numbers = new Array(); //결과값이 저장되는 곳
 var lottoNumer = [];
 var luckyNumber = [];
+let generateNumberListFlag = false;
 //10 x 6 배열을 생성
 //ES6에서 10x6 배열을 생성하는 방법
 var intervalEvent = Array.from(Array(10), () => new Array(6).fill(0));
 var stopTime = Array.from(Array(10), () => new Array(6).fill(0));
-
+let learningCount = 1002;
+let requestCount = 1003;
 var color = ["#fbc400", "#69c8f2", "#ff7272", "#aaa", "#b0d840", "#aaa"];
 
 $( document ).ready(function() {
@@ -55,8 +57,7 @@ $( document ).ready(function() {
 	}
 	//로또번호 생성을 실행한다.
 	function luckyNumGen() {
-		document.getElementById("btnNumGen").setAttribute("disabled", "disalbed");
-		document.getElementById("btnNumGen").innerText = "생성 중"
+		setUseStateButton(false); //버튼을 비사용처리
 		$('.js-layer').removeClass('hidden');
 		numbers = new Array();
 		tf.loadLayersModel(MODEL_URL, false).then(model => {
@@ -95,9 +96,7 @@ $( document ).ready(function() {
 			clearInterval(intervalEvent[line][num]); 
 			stopTime[line][num]=0;
 			if(num == 5 && line == 9) { //마지막까지 생성이 끝나면 다시 사용할수 있게 한다.
-				document.getElementById("btnNumGen").removeAttribute("disabled");
-				document.getElementById("btnNumGen").innerText = "다시 받기";
-				document.getElementById("lottoTxt").textContent  = numbersTxt;
+				setUseStateButton(true, numbersTxt); //사용처리			
 			}
 		}
 		stopTime[line][num]++;
@@ -109,9 +108,93 @@ $( document ).ready(function() {
 	$('#btnCopy').on('click', copy_to_clipboard);
 	$('#btnContent').on('click', showLogicContent);
 })
-function showLogicContent() {
-	alert('1회차에서 마지막회차까지 학습한 딥러닝 모델 사용');
+
+function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
 }
+function showLogicContent() { //이미지로할때
+	if(checkGenerateNumber()) return ;
+	let imgDataUrl = document.getElementById("lotto").toDataURL();
+	let files = dataURLtoFile(imgDataUrl, 'a.png');
+	let fileList = [files];
+	Kakao.Link.uploadImage({
+		file: fileList
+	  }).then(function(res){
+		Kakao.Link.sendCustom({
+			templateId: 70950,
+			templateArgs: {
+			'${MainImage}': res.infos.original.url,
+			'${count}' : requestCount,
+			'${learning}' : learningCount
+			},
+		});
+	  });
+}
+function showLogicContent2() { //게시물로할때
+	if(checkGenerateNumber()) return ;
+	let imgDataUrl = document.getElementById("lotto").toDataURL();
+	let files = dataURLtoFile(imgDataUrl, 'a.png');
+	let fileList = [files];
+	Kakao.Link.uploadImage({
+		file: fileList
+	  }).then(function(res){
+		console.log(res.infos.original.url);
+		Kakao.Link.sendDefault({
+			objectType: 'feed',
+			content: {
+			title: '딥러닝 로또번호 예측서비스',
+			description: '모든회차를 딥러닝한 모델',
+			imageUrl:res.infos.original.url,
+			link: {
+				mobileWebUrl: 'https://developers.kakao.com',
+				androidExecutionParams: 'test',
+			},
+			},
+			buttons: [
+			{
+				title: '나도하러가기',
+				link: {
+				mobileWebUrl: 'https://deeplotto.netlify.app',
+				},
+			},
+			]
+	  	});
+	  });
+}
+function setUseStateButton(flag, numbersTxt) {
+	if(flag) {
+		document.getElementById("btnNumGen").removeAttribute("disabled");
+		document.getElementById("btnCopy").removeAttribute("disabled");
+		document.getElementById("btnContent").removeAttribute("disabled");
+		document.getElementById("btnNumGen").innerText = "다시 받기";
+		document.getElementById("lottoTxt").textContent  = numbersTxt;
+		generateNumberListFlag = true;
+	} else {
+		document.getElementById("btnNumGen").setAttribute("disabled", "disalbed");
+		document.getElementById("btnCopy").setAttribute("disabled", "disalbed");
+		document.getElementById("btnContent").setAttribute("disabled", "disalbed");
+		document.getElementById("btnNumGen").innerText = "생성 중"
+		generateNumberListFlag = false;
+	}
+}
+function makeBlob(){
+	let imgDataUrl = document.getElementById("lotto").toDataURL();
+	var blobBin = atob(imgDataUrl.split(',')[1]);	// base64 데이터 디코딩
+    var array = [];
+    for (var i = 0; i < blobBin.length; i++) {
+        array.push(blobBin.charCodeAt(i));
+    }
+    var file = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+    var formdata = new FormData();	// formData 생성
+    formdata.append("file", file);	// file data 추가
+	console.log(imgDataUrl);
+}
+
 function getNumbers(numsProb) {
 	let ballBox = [];
 	let ball_count, ball;
@@ -233,6 +316,7 @@ function findMaxTenValue(ballBox) {
 	return maxIndexList;
 }
 function copy_to_clipboard() {    
+	if(checkGenerateNumber()) return ;
 	var copyText = document.getElementById('lottoTxt');
 	var copyBtn = document.getElementById('btnCopy');
 	navigator.clipboard.writeText(copyText.textContent);
@@ -244,4 +328,11 @@ function copy_to_clipboard() {
 		}, 1000);
 	} 
   }
+
+function checkGenerateNumber() {
+	if(!generateNumberListFlag) {
+		alert("예측번호 생성 후에 사용 가능합니다");
+		return true;
+	}
+}
 
