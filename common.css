@@ -22,8 +22,14 @@ body {
 
 #mainContainer #lotto {
     width:340px;
-    margin-left:3%;
+    margin-left:calc(1%);
     height:100;
+}
+@media (max-width: 600px) {
+    #mainContainer #lotto {
+        width: 99%;
+        margin-left: 2.5%;
+    }
 }
 
 #mainContainer button {
@@ -58,8 +64,8 @@ body {
 .layer {
     position: fixed;
     width: 20%;
-    left: 50%;
-    margin-left: -9%; /* half of width */
+    left: 40%;
+    margin-left: 0%; /* half of width */
     height: 200px;
     top: 40%;
     margin-top: -150px; /* half of height */
