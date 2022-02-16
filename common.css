@@ -25,9 +25,9 @@ body {
     margin-left:calc(1%);
     height:100;
 }
-@media (max-width: 600px) {
+@media (max-width: 400px) {
     #mainContainer #lotto {
-        width: 99%;
+        width: 90%;
         margin-left: 2.5%;
     }
 }
@@ -92,6 +92,12 @@ body {
 @media (max-width: 600px) {
     .layer {
         width: 80%;
+        margin-left: -30%;
+    }
+}
+@media (max-width: 400px) {
+    .layer {
+        width: 70%;
         margin-left: -30%;
     }
 }
