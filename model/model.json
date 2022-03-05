@@ -1,7 +1,7 @@
 {
     "format": "layers-model",
     "generatedBy": "keras v2.8.0",
-    "convertedBy": "TensorFlow.js Converter v3.13.0",
+    "convertedBy": "TensorFlow.js Converter v3.14.0",
     "modelTopology": {
         "keras_version": "2.8.0",
         "backend": "tensorflow",
@@ -13,11 +13,7 @@
                     {
                         "class_name": "InputLayer",
                         "config": {
-                            "batch_input_shape": [
-                                1,
-                                1,
-                                45
-                            ],
+                            "batch_input_shape": [1, 1, 45],
                             "dtype": "float32",
                             "sparse": false,
                             "ragged": false,
@@ -29,11 +25,7 @@
                         "config": {
                             "name": "lstm",
                             "trainable": true,
-                            "batch_input_shape": [
-                                1,
-                                1,
-                                45
-                            ],
+                            "batch_input_shape": [1, 1, 45],
                             "dtype": "float32",
                             "return_sequences": false,
                             "return_state": false,
@@ -47,21 +39,13 @@
                             "use_bias": true,
                             "kernel_initializer": {
                                 "class_name": "GlorotUniform",
-                                "config": {
-                                    "seed": null
-                                }
+                                "config": { "seed": null }
                             },
                             "recurrent_initializer": {
                                 "class_name": "Orthogonal",
-                                "config": {
-                                    "gain": 1.0,
-                                    "seed": null
-                                }
+                                "config": { "gain": 1.0, "seed": null }
                             },
-                            "bias_initializer": {
-                                "class_name": "Zeros",
-                                "config": {}
-                            },
+                            "bias_initializer": { "class_name": "Zeros", "config": {} },
                             "unit_forget_bias": true,
                             "kernel_regularizer": null,
                             "recurrent_regularizer": null,
@@ -86,14 +70,9 @@
                             "use_bias": true,
                             "kernel_initializer": {
                                 "class_name": "GlorotUniform",
-                                "config": {
-                                    "seed": null
-                                }
+                                "config": { "seed": null }
                             },
-                            "bias_initializer": {
-                                "class_name": "Zeros",
-                                "config": {}
-                            },
+                            "bias_initializer": { "class_name": "Zeros", "config": {} },
                             "kernel_regularizer": null,
                             "bias_regularizer": null,
                             "activity_regularizer": null,
@@ -128,7 +107,7 @@
                     "decay": 0.0,
                     "beta_1": 0.8999999761581421,
                     "beta_2": 0.9990000128746033,
-                    "epsilon": 1e-07,
+                    "epsilon": 1e-7,
                     "amsgrad": false
                 }
             }
@@ -136,48 +115,17 @@
     },
     "weightsManifest": [
         {
-            "paths": [
-                "group1-shard1of1.bin"
-            ],
+            "paths": ["group1-shard1of1.bin"],
             "weights": [
-                {
-                    "name": "dense/kernel",
-                    "shape": [
-                        128,
-                        45
-                    ],
-                    "dtype": "float32"
-                },
-                {
-                    "name": "dense/bias",
-                    "shape": [
-                        45
-                    ],
-                    "dtype": "float32"
-                },
-                {
-                    "name": "lstm/kernel",
-                    "shape": [
-                        45,
-                        512
-                    ],
-                    "dtype": "float32"
-                },
+                { "name": "dense/kernel", "shape": [128, 45], "dtype": "float32" },
+                { "name": "dense/bias", "shape": [45], "dtype": "float32" },
+                { "name": "lstm/kernel", "shape": [45, 512], "dtype": "float32" },
                 {
                     "name": "lstm/recurrent_kernel",
-                    "shape": [
-                        128,
-                        512
-                    ],
+                    "shape": [128, 512],
                     "dtype": "float32"
                 },
-                {
-                    "name": "lstm/bias",
-                    "shape": [
-                        512
-                    ],
-                    "dtype": "float32"
-                }
+                { "name": "lstm/bias", "shape": [512], "dtype": "float32" }
             ]
         }
     ]
